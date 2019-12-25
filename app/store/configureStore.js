@@ -7,6 +7,6 @@ const selectedConfigureStore =
     ? configureStoreProd
     : configureStoreDev;
 
-export const { configureStore } = selectedConfigureStore;
+const { configureStore, history } = selectedConfigureStore;
 
-export const { history } = selectedConfigureStore;
+export { configureStore, history as configureHistory };

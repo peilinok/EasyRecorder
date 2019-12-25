@@ -1,5 +1,5 @@
 {
-  "name": "EasyRecorder",
+  "name": "easy-recorder",
   "productName": "EasyRecorder",
   "version": "1.0.0",
   "description": "EasyRecorder depends on react and screen-recorder",
@@ -249,6 +249,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@hot-loader/react-dom": "^16.11.0",
+    "antd": "^3.26.4",
+    "babel-plugin-import": "^1.13.0",
     "connected-react-router": "^6.6.1",
     "core-js": "^3.5.0",
     "devtron": "^1.4.0",

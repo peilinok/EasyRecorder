@@ -2,7 +2,17 @@
 
 const developmentEnvironments = ['development', 'test'];
 
-const developmentPlugins = [require('react-hot-loader/babel')];
+const developmentPlugins = [
+  require('react-hot-loader/babel'),
+  [
+    'import',
+    {
+      libraryName: 'antd',
+      libraryDirectory: 'es',
+      style: 'css'
+    }
+  ]
+];
 
 const productionPlugins = [
   require('babel-plugin-dev-expression'),

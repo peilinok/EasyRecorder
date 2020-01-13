@@ -99,10 +99,12 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
+              /*
               modules: {
                 localIdentName: '[name]__[local]__[hash:base64:5]'
               },
               importLoaders: 1,
+              */
               sourceMap: true
             }
           },

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
-import AppLayout from './containers/AppLayout';
+import { Switch, Route } from 'react-router-dom';
+import App from './containers';
 
 export default () => (
   <Switch>
-    <Route path="/" component={AppLayout} />
+    <Route path="/" component={App} />
   </Switch>
 );

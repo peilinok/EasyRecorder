@@ -6,7 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { hot } from 'react-hot-loader/root';
 import type { Store } from './reducers/types';
 import { configureStore, configureHistory } from './store/configureStore';
-import Routes from './Routes';
+import Routes from './routes';
 
 import './app.global.css';
 

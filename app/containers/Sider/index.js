@@ -3,33 +3,26 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 import { NavLink } from 'react-router-dom';
 
-import './style.scss';
-
-type NavItem = {
-  path: string,
-  title: string,
-  icon?: string,
-  subItems: Array<NavItem>
-};
+import { ContentComponent } from '../../utils/types';
 
 type Props = {
-  contents: Array<NavItem>,
-  defaultOpen: NavItem,
-  defaultSelect: NavItem
+  contents: Array<ContentComponent>,
+  defaultOpen: ContentComponent,
+  defaultSelect: ContentComponent
 };
 
-export default class NavBar extends Component<Props> {
+export default class SiderLayout extends Component<Props> {
   props: Props;
 
   render() {
     const { contents, defaultOpen, defaultSelect } = this.props;
     return (
       <Menu
-        className="navbar"
+        className="sider-layout"
         defaultOpenKeys={[defaultOpen.path]}
         defaultSelectedKeys={[defaultSelect.path]}
-        theme="light"
-        mode="vertical"
+        theme="dark"
+        mode="inline"
         default
       >
         {contents.map(content => {

@@ -1,75 +1,69 @@
+/* eslint-disable react/state-in-constructor */
 // @flow
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
+import SiderLayout from './Sider';
+import HeaderLayout from './Header';
+import ContentLayout from './Content';
+import FooterLayout from './Footer';
 
-import NavBar from '../components/NavBar';
-import Recording from './Recording';
-import Setting from './Setting';
-
+import contents from './contents';
 import './style.scss';
 
 const { Header, Footer, Sider, Content } = Layout;
 
 type Props = {};
 
-function getContents() {
-  return [
-    {
-      path: '/recording',
-      title: 'Recording',
-      icon: 'camera',
-      component: Recording,
-      subItems: []
-    },
-    {
-      path: '/setting',
-      title: 'Setting',
-      icon: 'setting',
-      component: Setting,
-      subItems: []
-    }
-  ];
-}
+type State = {
+  collapsed: boolean
+};
 
-export default class AppLayout extends Component<Props> {
+export default class AppLayout extends Component<Props, State> {
   props: Props;
 
+  state: State;
+
+  state = {
+    collapsed: false
+  };
+
+  toggleCollapsed = () => {
+    const { collapsed } = this.state;
+
+    this.setState({
+      collapsed: !collapsed
+    });
+  };
+
   render() {
-    const contents = getContents();
+    const { collapsed } = this.state;
 
     return (
       <Layout className="app-layout">
-        <Sider theme="light" className="app-sider">
-          <NavBar
+        <Sider
+          theme="dark"
+          className="app-sider"
+          collapsible
+          collapsed={collapsed}
+          onCollapse={this.toggleCollapsed}
+        >
+          <SiderLayout
             contents={contents}
             defaultOpen={contents[0]}
             defaultSelect={contents[0]}
           />
         </Sider>
         <Layout>
-          <Header className="app-header" />
+          <Header className="app-header">
+            <HeaderLayout />
+          </Header>
           <Content className="app-content">
-            <Switch>
-              {contents.map(content => {
-                let route = null;
-                if (
-                  content.subItems !== undefined &&
-                  content.subItems.length > 0
-                )
-                  route = <></>;
-                else
-                  route = (
-                    <Route path={content.path} component={content.component} />
-                  );
-
-                return route;
-              })}
-              <Redirect to="/recording" />
-            </Switch>
+            <ContentLayout contents={contents} defaultContent={contents[0]} />
           </Content>
-          <Footer className="app-footer" />
+          <Footer className="app-footer">
+            <FooterLayout />
+          </Footer>
         </Layout>
       </Layout>
     );

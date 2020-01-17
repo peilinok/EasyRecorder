@@ -13,7 +13,14 @@ import './style.scss';
 
 const { Header, Footer, Sider, Content } = Layout;
 
-type Props = {};
+type Props = {
+  location: {
+    pathname: string
+  },
+  match: {
+    path: string
+  }
+};
 
 type State = {
   collapsed: boolean
@@ -25,7 +32,7 @@ export default class AppLayout extends Component<Props, State> {
   state: State;
 
   state = {
-    collapsed: false
+    collapsed: true
   };
 
   toggleCollapsed = () => {
@@ -38,7 +45,7 @@ export default class AppLayout extends Component<Props, State> {
 
   render() {
     const { collapsed } = this.state;
-
+    const { match, location } = this.props;
     return (
       <Layout className="app-layout">
         <Sider
@@ -56,7 +63,9 @@ export default class AppLayout extends Component<Props, State> {
         </Sider>
         <Layout>
           <Header className="app-header">
-            <HeaderLayout />
+            <HeaderLayout
+              pathname={location.pathname.replace(match.path, '')}
+            />
           </Header>
           <Content className="app-content">
             <ContentLayout contents={contents} defaultContent={contents[0]} />

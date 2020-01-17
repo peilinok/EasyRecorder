@@ -1,17 +1,31 @@
 .app-layout {
   min-height: 100vh;
   height: 100%;
-  background-color: rgb(229, 226, 226) !important;
+  background-color: #f0f2f5;
+
+  .app-sider {
+    .ant-menu-item {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      height: 48px;
+      line-height: 48px;
+    }
+  }
 
   .app-header {
-    background-color: rgb(229, 226, 226) !important;
+    background-color: #f0f2f5;
+    box-shadow: 0 2px 8px #cec8c8;
+    z-index: 1;
+    height: 48px;
+    line-height: 48px;
+    padding: 0;
   }
 
   .app-content {
-    background-color: rgb(229, 226, 226) !important;
+    background-color: #f0f2f5;
   }
 
   .app-footer {
-    background-color: rgb(229, 226, 226) !important;
+    background-color: #f0f2f5;
   }
 }

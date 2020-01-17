@@ -8,10 +8,6 @@ export default class RecordingLayout extends Component<Props> {
   props: Props;
 
   render() {
-    return (
-      <div className="recording-layout">
-        <h2>Recording</h2>
-      </div>
-    );
+    return <div className="recording-layout" />;
   }
 }

@@ -7,3 +7,9 @@ export type ContentComponent = {
   component: React.ComponentType<void>,
   subItems: Array<ContentComponent>
 };
+
+export type DeviceItem = {
+  id: sring,
+  name: string,
+  isDefault: boolean
+};

@@ -1,4 +1,5 @@
 # EasyRecorder
+
 <br>
 
 <p>
@@ -7,7 +8,12 @@
 
 <br>
 
+## ScreenShots
+
+![](screenshots/settings.png)
+
 ## Features
+
 <br>
 
 - Different ways to record screen 、speaker and microphone
@@ -19,6 +25,7 @@
 <br>
 
 ## Todo
+
 <br>
 
 - More muxers such as .mkv
@@ -29,13 +36,14 @@
 <br>
 
 ## Usage
+
 <br>
 
 ### Install depends
 
 ```sh
 
-$ yarn 
+$ yarn
 
 ```
 

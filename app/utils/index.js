@@ -1,6 +1,11 @@
 import log from 'electron-log';
+import { getDesktopFolder } from 'platform-folders';
 
-const initLogTransports = () => {
+import storage from './storage';
+import recorder from './recorder';
+import helper from './helper';
+
+const initLog = () => {
   log.transports.console = message => {
     const date = new Date();
     switch (message.level) {
@@ -23,8 +28,34 @@ const initLogTransports = () => {
   };
 };
 
+const initSettings = () => {
+  const { mics, speakers } = recorder.getDevices();
+  const mic = storage.getMic();
+  const speaker = storage.getSpeaker();
+  const fps = storage.getFps();
+  const quality = storage.getQuality();
+  const output = storage.getOutputDir();
+
+  const selectedMic = helper.getDefaultSelectedDevice(mics, mic);
+  const selectedSpeaker = helper.getDefaultSelectedDevice(speakers, speaker);
+
+  // no mic or speaker stored,store default one
+  if (mic === undefined || mic === '') {
+    storage.setMic(selectedMic.id);
+  }
+
+  if (speaker === undefined || speaker === '') {
+    storage.setSpeaker(selectedSpeaker.id);
+  }
+
+  storage.setFps(fps);
+  storage.setQuality(quality);
+  storage.setOutputDir(output === '' ? getDesktopFolder() : output);
+};
+
 const init = () => {
-  initLogTransports();
+  initLog();
+  initSettings();
 };
 
 init();

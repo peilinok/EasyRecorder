@@ -11,5 +11,5 @@ export type ContentComponent = {
 export type DeviceItem = {
   id: sring,
   name: string,
-  isDefault: boolean
+  isDefault: number
 };

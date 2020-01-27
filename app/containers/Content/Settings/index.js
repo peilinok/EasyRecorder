@@ -2,8 +2,10 @@
 import React, { Component } from 'react';
 import log from 'electron-log';
 
-import recorder from '../../../utils/recorder';
 import { DeviceItem } from '../../../utils/types';
+import recorder from '../../../utils/recorder';
+import helper from '../../../utils/helper';
+import storage from '../../../utils/storage';
 
 import SettingForm from './setting-form';
 
@@ -34,7 +36,7 @@ export default class SettingLayout extends Component<Props, State> {
       currentSpeaker: undefined,
       fps: 20,
       quality: 60,
-      output: 'd:\\'
+      output: ''
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -42,14 +44,23 @@ export default class SettingLayout extends Component<Props, State> {
 
   componentDidMount() {
     const { mics, speakers } = recorder.getDevices();
+    const mic = storage.getMic();
+    const speaker = storage.getSpeaker();
+    const fps = storage.getFps();
+    const quality = storage.getQuality();
+    const output = storage.getOutputDir();
+
+    const currentMic = helper.getDefaultSelectedDevice(mics, mic);
+    const currentSpeaker = helper.getDefaultSelectedDevice(speakers, speaker);
+
     this.setState({
       mics,
       speakers,
-      currentMic: mics.length ? mics[0] : undefined,
-      currentSpeaker: speakers.length ? speakers[0] : undefined,
-      fps: 20,
-      quality: 60,
-      output: 'd:\\'
+      currentMic,
+      currentSpeaker,
+      fps,
+      quality,
+      output
     });
   }
 
@@ -57,13 +68,22 @@ export default class SettingLayout extends Component<Props, State> {
     log.info('on setting form submit:', values);
 
     const { mic, speaker, fps, quality, output } = values;
-    this.setState({
-      currentMic: mic,
-      currentSpeaker: speaker,
-      fps,
-      quality,
-      output
-    });
+    this.setState(
+      {
+        currentMic: mic,
+        currentSpeaker: speaker,
+        fps,
+        quality,
+        output
+      },
+      () => {
+        storage.setMic(mic.id);
+        storage.setSpeaker(speaker.id);
+        storage.setFps(fps);
+        storage.setQuality(quality);
+        storage.setOutputDir(output);
+      }
+    );
   }
 
   render() {

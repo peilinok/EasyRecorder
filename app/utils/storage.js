@@ -1,3 +1,4 @@
+// @flow
 import ElectronStore from 'electron-store';
 
 const STORAGE_KEY_MIC = 'STORAGE_KEY_MIC';

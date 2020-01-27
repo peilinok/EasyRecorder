@@ -10,9 +10,11 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+
+// import './event';
 
 export default class AppUpdater {
   constructor() {
@@ -84,6 +86,24 @@ const createWindow = async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+  });
+
+  ipcMain.on('custom-open-folder-req', (event, arg) => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        ...arg,
+        properties: ['openDirectory']
+      })
+      .then(value => {
+        log.info('custom open folder req succed,', value);
+        if (value.canceled === false && value.filePaths.length > 0) {
+          event.sender.send('custom-open-folder-res', value.filePaths);
+        }
+        return value;
+      })
+      .catch(err => {
+        log.debug('custom open folder req failed,', err);
+      });
   });
 
   /*

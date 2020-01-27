@@ -1,5 +1,5 @@
-// @flow
 import React, { Component } from 'react';
+import { ipcRenderer } from 'electron';
 import { Form, Button, Input, Icon, Slider } from 'antd';
 
 import { DeviceItem } from '../../../utils/types';
@@ -45,6 +45,20 @@ class SettingForm extends Component<Props, State> {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    // eslint-disable-next-line react/prop-types
+    const { form } = this.props;
+
+    ipcRenderer.on('custom-open-folder-res', (event, arg) => {
+      // eslint-disable-next-line react/prop-types
+      form.setFieldsValue({ output: arg[0] });
+    });
+  }
+
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners('custom-open-folder-res');
   }
 
   onSubmit(e) {
@@ -164,7 +178,13 @@ class SettingForm extends Component<Props, State> {
           })(
             <Input
               addonAfter={
-                <Icon type="folder-open" title="Open" onClick={() => {}} />
+                <Icon
+                  type="folder-open"
+                  title="Open"
+                  onClick={() => {
+                    ipcRenderer.send('custom-open-folder-req');
+                  }}
+                />
               }
               readOnly
               disabled={disabled}

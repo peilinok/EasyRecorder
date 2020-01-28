@@ -1,14 +1,6 @@
 .recording-layout {
-  top: 30%;
-  left: 10px;
-  text-align: center;
-
-  h2 {
-    font-size: 5rem;
-    color: black;
-  }
-
-  a {
-    font-size: 1.4rem;
-  }
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }

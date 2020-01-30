@@ -10,6 +10,8 @@
 
 ## ScreenShots
 
+![](screenshots/recording.png)
+
 ![](screenshots/settings.png)
 
 ## Features

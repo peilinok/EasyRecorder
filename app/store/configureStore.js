@@ -9,4 +9,6 @@ const selectedConfigureStore =
 
 const { configureStore, history } = selectedConfigureStore;
 
-export { configureStore, history as configureHistory };
+const configuredStore = configureStore();
+
+export { configuredStore, history as configuredHistory };

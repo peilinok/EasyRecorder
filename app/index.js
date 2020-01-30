@@ -5,13 +5,11 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { hot } from 'react-hot-loader/root';
 import type { Store } from './reducers/types';
-import { configureStore, configureHistory } from './store/configureStore';
+import { configuredStore, configuredHistory } from './store/configureStore';
 import Routes from './routes';
 import './utils';
 
 import './app.global.css';
-
-const configuredStore = configureStore();
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
@@ -30,7 +28,7 @@ const Root = hot(({ store, history }: Props) => (
 
 render(
   <AppContainer>
-    <Root store={configuredStore} history={configureHistory} />
+    <Root store={configuredStore} history={configuredHistory} />
   </AppContainer>,
   document.getElementById('root')
 );

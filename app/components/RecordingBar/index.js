@@ -4,11 +4,13 @@ import { Button } from 'antd';
 
 import './style.scss';
 
+type OP = 'start' | 'stop' | 'pause' | 'resume';
+
 type Props = {
   isLoading: boolean,
   isRecording: boolean,
   isPaused: boolean,
-  onRecordClick: void => void
+  onRecordClick: OP => void
 };
 
 export default class RecordingBar extends Component<Props> {
@@ -25,7 +27,7 @@ export default class RecordingBar extends Component<Props> {
               loading={isLoading}
               type="danger"
               icon="stop"
-              onClick={() => onRecordClick()}
+              onClick={() => onRecordClick('stop')}
             >
               Stop Recording
             </Button>
@@ -34,7 +36,7 @@ export default class RecordingBar extends Component<Props> {
                 loading={isLoading}
                 type="primary"
                 icon="play-circle"
-                onClick={() => onRecordClick()}
+                onClick={() => onRecordClick('resume')}
               >
                 Resume
               </Button>
@@ -43,7 +45,7 @@ export default class RecordingBar extends Component<Props> {
                 loading={isLoading}
                 type="primary"
                 icon="pause-circle"
-                onClick={() => onRecordClick()}
+                onClick={() => onRecordClick('pause')}
               >
                 Pause
               </Button>
@@ -54,7 +56,7 @@ export default class RecordingBar extends Component<Props> {
             loading={isLoading}
             type="primary"
             icon="video-camera"
-            onClick={() => onRecordClick()}
+            onClick={() => onRecordClick('start')}
           >
             Start Recording
           </Button>

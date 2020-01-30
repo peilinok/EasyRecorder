@@ -1,25 +1,53 @@
-// @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import {
+  recorderStart,
+  recorderStop,
+  recorderPause,
+  recorderResume
+} from '../../../actions/recorder';
+
+import { configuredStore } from '../../../store/configureStore';
 
 import RecordingBar from '../../../components/RecordingBar';
 import RecordingPreview from '../../../components/RecordingPreview';
 
 import './style.scss';
 
-type Props = {};
+type Props = {
+  isRecording: boolean,
+  isPaused: boolean
+};
 
-export default class RecordingLayout extends Component<Props> {
+class RecordingLayout extends Component<Props> {
   props: Props;
 
   render() {
+    const { isRecording, isPaused } = this.props;
     return (
       <div className="recording-layout">
         <RecordingBar
           isLoading={false}
-          isPaused={false}
-          isRecording={false}
-          onRecordClick={() => {
-            console.info('onClick');
+          isPaused={isPaused}
+          isRecording={isRecording}
+          onRecordClick={action => {
+            switch (action) {
+              case 'start':
+                configuredStore.dispatch(recorderStart('sdf'));
+                break;
+              case 'stop':
+                configuredStore.dispatch(recorderStop());
+                break;
+              case 'pause':
+                configuredStore.dispatch(recorderPause());
+                break;
+              case 'resume':
+                configuredStore.dispatch(recorderResume());
+                break;
+              default:
+                break;
+            }
           }}
         />
         <RecordingPreview />
@@ -27,3 +55,12 @@ export default class RecordingLayout extends Component<Props> {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isRecording: state.recorder.isRecording,
+    isPaused: state.recorder.isPaused
+  };
+}
+
+export default connect(mapStateToProps)(RecordingLayout);

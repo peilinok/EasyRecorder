@@ -1,5 +1,10 @@
 // @flow
+import moment from 'moment';
+import path from 'path';
+
 import { DeviceItem } from './types';
+
+moment.locale('zh-cn');
 
 const helper = {
   getDefaultSelectedDevice: (devices: Array<DeviceItem>, id?: string) => {
@@ -22,6 +27,13 @@ const helper = {
 
     // return found device or undefined
     return device;
+  },
+  generateVideoFileName(folder: string, ext: string) {
+    return path.join(
+      folder,
+      // eslint-disable-next-line new-cap
+      `${new moment().format('YYYY-MM-DD hh-mm-ss')}.${ext}`
+    );
   }
 };
 

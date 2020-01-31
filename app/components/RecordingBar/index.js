@@ -31,6 +31,7 @@ export default class RecordingBar extends Component<Props> {
             >
               Stop Recording
             </Button>
+
             {isPaused ? (
               <Button
                 loading={isLoading}

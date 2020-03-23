@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { shell } from 'electron';
 import { connect } from 'react-redux';
 
 import recorder from '../../../utils/recorder';
+import storage from '../../../utils/storage';
 
 import RecordingBar from '../../../components/RecordingBar';
 import RecordingPreview from '../../../components/RecordingPreview';
@@ -41,6 +43,9 @@ class RecordingLayout extends Component<Props> {
               default:
                 break;
             }
+          }}
+          onFolderClick={() => {
+            shell.showItemInFolder(`${storage.getOutputDir()}\\abc.mp4`);
           }}
         />
         <RecordingPreview />

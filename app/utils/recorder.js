@@ -1,5 +1,5 @@
-import ffRecorder from 'ffmpeg-recorder';
 import log from 'electron-log';
+import ffRecorder from 'ffmpeg-recorder';
 
 import storage from './storage';
 import helper from './helper';
@@ -10,7 +10,9 @@ import {
   recorderPause,
   recorderResume
 } from '../actions/recorder';
+
 import { configuredStore as store } from '../store/configureStore';
+import { msgSuccess, msgError } from './notification';
 
 const Recorder = {
   getDevices() {
@@ -47,8 +49,10 @@ const Recorder = {
       ffRecorder.Start();
       store.dispatch(recorderStart(outputFileName));
       log.info('start to record succed');
+      msgSuccess('start to record succed');
     } else {
       log.error('start to record failed:', ret);
+      msgError('start to record failed');
     }
 
     return ret === 0;
@@ -61,8 +65,10 @@ const Recorder = {
       ffRecorder.Release();
       store.dispatch(recorderStop());
       log.info('stop to record succed.');
+      msgSuccess('stop succed');
     } else {
       log.error('already stopped,can not stop again');
+      msgError('stop failed');
     }
 
     return true;

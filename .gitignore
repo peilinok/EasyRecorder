@@ -51,3 +51,4 @@ main.js.map
 npm-debug.log.*
 /yarn.lock
 /app/build/config.gypi
+/app/yarn.lock

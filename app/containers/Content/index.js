@@ -22,7 +22,13 @@ export default class ContentLayout extends React.Component<Props> {
           if (content.subItems !== undefined && content.subItems.length > 0)
             route = <></>;
           else
-            route = <Route path={content.path} component={content.component} />;
+            route = (
+              <Route
+                key={content.path}
+                path={content.path}
+                component={content.component}
+              />
+            );
 
           return route;
         })}

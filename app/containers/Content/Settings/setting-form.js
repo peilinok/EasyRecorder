@@ -6,9 +6,7 @@ import { DeviceItem } from '../../../utils/types';
 
 import DeviceSelect from '../../../components/DeviceSelect';
 
-type State = {
-  disabled: boolean
-};
+type State = {};
 
 type SettingFormData = {
   mic: DeviceItem,
@@ -19,6 +17,7 @@ type SettingFormData = {
 };
 
 type Props = {
+  disabled: boolean,
   mics: Array<DeviceItem>,
   speakers: Array<DeviceItem>,
   // eslint-disable-next-line react/no-unused-prop-types
@@ -39,10 +38,6 @@ class SettingForm extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      disabled: false
-    };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -76,6 +71,7 @@ class SettingForm extends Component<Props, State> {
 
   render() {
     const {
+      disabled,
       mics,
       speakers,
       // eslint-disable-next-line react/prop-types
@@ -84,8 +80,6 @@ class SettingForm extends Component<Props, State> {
 
     // eslint-disable-next-line react/prop-types
     const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
-
-    const { disabled } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit}>
@@ -182,6 +176,7 @@ class SettingForm extends Component<Props, State> {
                   type="folder-open"
                   title="Open"
                   onClick={() => {
+                    if (disabled === true) return;
                     ipcRenderer.send('custom-open-folder-req');
                   }}
                 />

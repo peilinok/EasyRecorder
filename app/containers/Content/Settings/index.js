@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import log from 'electron-log';
+import { connect } from 'react-redux';
 
 import { DeviceItem } from '../../../utils/types';
 import recorder from '../../../utils/recorder';
@@ -10,7 +11,9 @@ import SettingForm from './setting-form';
 
 import './style.scss';
 
-type Props = {};
+type Props = {
+  isRecording: boolean
+};
 
 type State = {
   mics: Array<DeviceItem>,
@@ -22,7 +25,7 @@ type State = {
   output: string
 };
 
-export default class SettingLayout extends Component<Props, State> {
+class SettingLayout extends Component<Props, State> {
   props: Props;
 
   constructor(props: Props) {
@@ -96,9 +99,12 @@ export default class SettingLayout extends Component<Props, State> {
       output
     } = this.state;
 
+    const { isRecording } = this.props;
+
     return (
       <div className="setting-layout">
         <SettingForm
+          disabled={isRecording}
           mics={mics}
           speakers={speakers}
           currentMic={currentMic}
@@ -112,3 +118,11 @@ export default class SettingLayout extends Component<Props, State> {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isRecording: state.recorder.isRecording
+  };
+}
+
+export default connect(mapStateToProps)(SettingLayout);

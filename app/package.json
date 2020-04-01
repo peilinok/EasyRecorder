@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ffmpeg-recorder": "^1.1.7",
+    "ffmpeg-recorder": "^1.1.10",
     "platform-folders": "^0.4.1"
   }
 }

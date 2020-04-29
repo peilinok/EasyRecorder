@@ -1,5 +1,5 @@
 import log from 'electron-log';
-import ffRecorder from 'ffmpeg-recorder';
+import EasyRecorder from 'ffmpeg-recorder';
 
 import storage from './storage';
 import helper from './helper';
@@ -13,6 +13,8 @@ import {
 
 import { configuredStore as store } from '../store/configureStore';
 import { msgSuccess, msgError } from './notification';
+
+const ffRecorder = new EasyRecorder();
 
 const Recorder = {
   getDevices() {

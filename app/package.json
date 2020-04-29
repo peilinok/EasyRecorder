@@ -15,7 +15,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ffmpeg-recorder": "^1.1.10",
-    "platform-folders": "^0.4.1"
+    "platform-folders": "^0.4.1",
+    "ffmpeg-recorder":"^1.1.5"
+  },
+  "ffmpeg_recorder": {
+    "electron_version": "7.1.4",
+    "platform": "win32",
+    "msvs_version": "2015",
+    "debug": false,
+    "silent": false
   }
 }

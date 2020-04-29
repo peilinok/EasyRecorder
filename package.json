@@ -276,6 +276,14 @@
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
   },
+  "ffmpeg_recorder": {
+    "electron_version": "7.1.4",
+    "platform": "win32",
+    "runtime":"electron",
+    "msvs_version": "2015",
+    "debug": false,
+    "silent": false
+  },
   "browserslist": "electron 1.6",
   "husky": {
     "hooks": {

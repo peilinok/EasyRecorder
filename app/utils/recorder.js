@@ -16,6 +16,8 @@ import { msgSuccess, msgError } from './notification';
 
 const ffRecorder = new EasyRecorder();
 
+window.ffRecorder = ffRecorder;
+
 const Recorder = {
   getDevices() {
     return {
@@ -80,6 +82,14 @@ const Recorder = {
   },
   resume() {
     store.dispatch(recorderResume());
+  },
+
+  /**
+   *
+   * @param {(image:{size:number,width:number,height:number,type:number,data:Buffer})=>void} callback
+   */
+  onYuv(callback) {
+    ffRecorder.SetPreviewYuvCallBack(callback);
   }
 };
 

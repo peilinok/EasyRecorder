@@ -269,25 +269,27 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "yuv-buffer": "^1.0.0",
+    "yuv-canvas": "^1.2.6"
   },
   "devEngines": {
     "node": ">=7.x",
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
   },
-  "ffmpeg_recorder": {
-    "electron_version": "7.1.4",
-    "platform": "win32",
-    "runtime":"electron",
-    "msvs_version": "2015",
-    "debug": false,
-    "silent": false
-  },
   "browserslist": "electron 1.6",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "ffmpeg_recorder": {
+    "electron_version": "7.1.4",
+    "platform": "win32",
+    "runtime": "electron",
+    "msvs_version": "2015",
+    "debug": false,
+    "silent": false
   }
 }

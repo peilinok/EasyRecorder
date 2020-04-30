@@ -269,9 +269,7 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "source-map-support": "^0.5.16",
-    "yuv-buffer": "^1.0.0",
-    "yuv-canvas": "^1.2.6"
+    "source-map-support": "^0.5.16"
   },
   "devEngines": {
     "node": ">=7.x",

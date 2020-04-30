@@ -90,6 +90,29 @@ const Recorder = {
    */
   onYuv(callback) {
     ffRecorder.SetPreviewYuvCallBack(callback);
+  },
+
+  /**
+   *
+   * @param {boolean} enable
+   */
+  enablePreview(enable) {
+    ffRecorder.EnablePreview(enable);
+  },
+
+  /**
+   *
+   * @param {Element} element
+   */
+  bind(element) {
+    ffRecorder.SetPreviewElement(element);
+  },
+
+  /**
+   *
+   */
+  unBind() {
+    ffRecorder.UnSetPreviewElement();
   }
 };
 

@@ -1,4 +1,6 @@
 // @flow
+import moment from 'moment';
+
 import {
   RECORDER_START,
   RECORDER_STOP,
@@ -11,15 +13,21 @@ export default function recorder(
   state: RecorderStateType = {
     isPaused: false,
     isRecording: false,
-    curFilePath: ''
+    curFilePath: '',
+    startTime: 0
   },
   action: Action
 ) {
   switch (action.type) {
     case RECORDER_START:
-      return { ...state, isRecording: true, curFile: action.payload.filePath };
+      return {
+        ...state,
+        isRecording: true,
+        curFile: action.payload.filePath,
+        startTime: moment()
+      };
     case RECORDER_STOP:
-      return { ...state, isRecording: false, curFile: '' };
+      return { ...state, isRecording: false, curFile: '', startTime: 0 };
     case RECORDER_PAUSE:
       return { ...state, isPaused: true };
     case RECORDER_RESUME:

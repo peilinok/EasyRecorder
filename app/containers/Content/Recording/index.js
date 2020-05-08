@@ -12,20 +12,22 @@ import './style.scss';
 
 type Props = {
   isRecording: boolean,
-  isPaused: boolean
+  isPaused: boolean,
+  startTime: number
 };
 
 class RecordingLayout extends Component<Props> {
   props: Props;
 
   render() {
-    const { isRecording, isPaused } = this.props;
+    const { isRecording, isPaused, startTime } = this.props;
     return (
       <div className="recording-layout">
         <RecordingBar
           isLoading={false}
           isPaused={isPaused}
           isRecording={isRecording}
+          startTime={startTime}
           onRecordClick={action => {
             switch (action) {
               case 'start':
@@ -57,7 +59,8 @@ class RecordingLayout extends Component<Props> {
 function mapStateToProps(state) {
   return {
     isRecording: state.recorder.isRecording,
-    isPaused: state.recorder.isPaused
+    isPaused: state.recorder.isPaused,
+    startTime: state.recorder.startTime
   };
 }
 

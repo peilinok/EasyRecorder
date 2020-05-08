@@ -1,9 +1,12 @@
 import log from 'electron-log';
 import { getDesktopFolder } from 'platform-folders';
+import moment from 'moment';
 
 import storage from './storage';
 import recorder from './recorder';
 import helper from './helper';
+
+moment.locale('zh-CN');
 
 const initLog = () => {
   log.transports.console = message => {

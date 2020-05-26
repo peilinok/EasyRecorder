@@ -1,18 +1,24 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import { Form, Button, Input, Icon, Slider } from 'antd';
+import { Form, Button, Input, Icon, Slider, Checkbox } from 'antd';
 
 import { DeviceItem } from '../../../utils/types';
 
 import DeviceSelect from '../../../components/DeviceSelect';
 
-type State = {};
+type State = {
+  isMicEnabled: boolean,
+  isSpeakerEnabled: boolean
+};
 
 type SettingFormData = {
   mic: DeviceItem,
   speaker: DeviceItem,
   fps: number,
   quality: number,
+  isMicEnabled: boolean,
+  isSpeakerEnabled: boolean,
   output: string
 };
 
@@ -20,16 +26,13 @@ type Props = {
   disabled: boolean,
   mics: Array<DeviceItem>,
   speakers: Array<DeviceItem>,
-  // eslint-disable-next-line react/no-unused-prop-types
   currentMic: DeviceItem,
-  // eslint-disable-next-line react/no-unused-prop-types
   currentSpeaker: DeviceItem,
-  // eslint-disable-next-line react/no-unused-prop-types
   fps: number,
-  // eslint-disable-next-line react/no-unused-prop-types
   quality: number,
-  // eslint-disable-next-line react/no-unused-prop-types
   output: string,
+  isMicEnabled: boolean,
+  isSpeakerEnabled: boolean,
   onSubmit: SettingFormData => void
 };
 
@@ -38,6 +41,11 @@ class SettingForm extends Component<Props, State> {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isMicEnabled: props.isMicEnabled,
+      isSpeakerEnabled: props.isSpeakerEnabled
+    };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -59,12 +67,13 @@ class SettingForm extends Component<Props, State> {
   onSubmit(e) {
     // eslint-disable-next-line react/prop-types
     const { onSubmit, form } = this.props;
+    const { isMicEnabled, isSpeakerEnabled } = this.state;
     e.preventDefault();
 
     // eslint-disable-next-line react/prop-types
     form.validateFields((err, values) => {
       if (!err) {
-        if (onSubmit) onSubmit(values);
+        if (onSubmit) onSubmit({ ...values, isMicEnabled, isSpeakerEnabled });
       }
     });
   }
@@ -78,16 +87,30 @@ class SettingForm extends Component<Props, State> {
       form
     } = this.props;
 
+    const { isMicEnabled, isSpeakerEnabled } = this.state;
+
     // eslint-disable-next-line react/prop-types
     const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
 
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Form.Item label="Microphones">
+      <Form onSubmit={this.onSubmit} layout="horizontal">
+        <Form.Item
+          label={
+            <Checkbox
+              checked={isMicEnabled}
+              onClick={() => {
+                this.setState({ isMicEnabled: !isMicEnabled });
+              }}
+              disabled={disabled}
+            >
+              Microphones
+            </Checkbox>
+          }
+        >
           {getFieldDecorator('mic', {
             rules: [
               {
-                required: true,
+                required: true && isMicEnabled,
                 message: 'Must select a microphone'
               }
             ]
@@ -95,16 +118,29 @@ class SettingForm extends Component<Props, State> {
             <DeviceSelect
               options={mics}
               selected={getFieldValue('mic')}
-              disabled={disabled}
+              disabled={disabled || !isMicEnabled}
               onSelect={mic => setFieldsValue({ mic })}
             />
           )}
         </Form.Item>
-        <Form.Item label="Speakers">
+
+        <Form.Item
+          label={
+            <Checkbox
+              checked={isSpeakerEnabled}
+              onClick={() =>
+                this.setState({ isSpeakerEnabled: !isSpeakerEnabled })
+              }
+              disabled={disabled}
+            >
+              Speakers
+            </Checkbox>
+          }
+        >
           {getFieldDecorator('speaker', {
             rules: [
               {
-                required: true,
+                required: true && isSpeakerEnabled,
                 message: 'Must select a speaker'
               }
             ]
@@ -112,7 +148,7 @@ class SettingForm extends Component<Props, State> {
             <DeviceSelect
               options={speakers}
               selected={getFieldValue('speaker')}
-              disabled={disabled}
+              disabled={disabled || !isSpeakerEnabled}
               onSelect={speaker => setFieldsValue({ speaker })}
             />
           )}

@@ -39,14 +39,17 @@ const Recorder = {
 
     log.info('start to record to file : ', outputFileName);
 
+    const mic = storage.isMicEnabled() ? storage.getMic() : '';
+    const speaker = storage.isSpeakerEnabled() ? storage.getSpeaker() : '';
+
     const ret = ffRecorder.Init(
       storage.getQuality(),
       storage.getFps(),
       outputFileName,
-      storage.getSpeaker(),
-      storage.getSpeaker(),
-      storage.getMic(),
-      storage.getMic()
+      speaker,
+      speaker,
+      mic,
+      mic
     );
 
     if (ret === 0) {

@@ -41,7 +41,7 @@ export default class RecordingBar extends Component<Props> {
       });
     }, 1000);
 
-    this.setState({ timer });
+    this.setState({ timer, duration: this.getFormatedTimeSpan() });
   }
 
   componentWillUnmount() {

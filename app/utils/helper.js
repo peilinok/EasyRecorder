@@ -32,7 +32,7 @@ const helper = {
     return path.join(
       folder,
       // eslint-disable-next-line new-cap
-      `${new moment().format('YYYY-MM-DD hh-mm-ss')}.${ext}`
+      `${new moment().format('YYYY-MM-DD-hhmmss')}.${ext}`
     );
   }
 };

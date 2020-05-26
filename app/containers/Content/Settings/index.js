@@ -22,7 +22,9 @@ type State = {
   currentSpeaker: DeviceItem,
   fps: number,
   quality: number,
-  output: string
+  output: string,
+  isMicEnabled: boolean,
+  isSpeakerEnabled: boolean
 };
 
 class SettingLayout extends Component<Props, State> {
@@ -31,51 +33,45 @@ class SettingLayout extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    const { mics, speakers } = recorder.getDevices();
+    const mic = storage.getMic();
+    const speaker = storage.getSpeaker();
+
     this.state = {
-      mics: [],
-      speakers: [],
-      currentMic: undefined,
-      currentSpeaker: undefined,
-      fps: 20,
-      quality: 60,
-      output: ''
+      mics: recorder.getDevices().mics,
+      speakers: recorder.getDevices().speakers,
+      currentMic: helper.getDefaultSelectedDevice(mics, mic),
+      currentSpeaker: helper.getDefaultSelectedDevice(speakers, speaker),
+      fps: storage.getFps(),
+      quality: storage.getQuality(),
+      output: storage.getOutputDir(),
+      isMicEnabled: storage.isMicEnabled(),
+      isSpeakerEnabled: storage.isSpeakerEnabled()
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
-    const { mics, speakers } = recorder.getDevices();
-    const mic = storage.getMic();
-    const speaker = storage.getSpeaker();
-    const fps = storage.getFps();
-    const quality = storage.getQuality();
-    const output = storage.getOutputDir();
-
-    const currentMic = helper.getDefaultSelectedDevice(mics, mic);
-    const currentSpeaker = helper.getDefaultSelectedDevice(speakers, speaker);
-
-    this.setState({
-      mics,
-      speakers,
-      currentMic,
-      currentSpeaker,
-      fps,
-      quality,
-      output
-    });
-  }
-
   onSubmit(values) {
     log.info('on setting form submit:', values);
 
-    const { mic, speaker, fps, quality, output } = values;
+    const {
+      mic,
+      speaker,
+      fps,
+      quality,
+      output,
+      isMicEnabled,
+      isSpeakerEnabled
+    } = values;
     this.setState(
       {
         currentMic: mic,
         currentSpeaker: speaker,
         fps,
         quality,
+        isMicEnabled,
+        isSpeakerEnabled,
         output
       },
       () => {
@@ -84,6 +80,8 @@ class SettingLayout extends Component<Props, State> {
         storage.setFps(fps);
         storage.setQuality(quality);
         storage.setOutputDir(output);
+        storage.enableMic(isMicEnabled);
+        storage.enableSpeaker(isSpeakerEnabled);
       }
     );
   }
@@ -96,7 +94,9 @@ class SettingLayout extends Component<Props, State> {
       currentSpeaker,
       fps,
       quality,
-      output
+      output,
+      isMicEnabled,
+      isSpeakerEnabled
     } = this.state;
 
     const { isRecording } = this.props;
@@ -112,6 +112,8 @@ class SettingLayout extends Component<Props, State> {
           fps={fps}
           quality={quality}
           output={output}
+          isMicEnabled={isMicEnabled}
+          isSpeakerEnabled={isSpeakerEnabled}
           onSubmit={this.onSubmit}
         />
       </div>

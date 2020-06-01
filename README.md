@@ -3,7 +3,7 @@
 <br>
 
 <p>
-  EasyRecorder is a cross-platform screen recorder which is written by node-js and depended on screen-recorder.
+  EasyRecorder is a cross-platform screen recorder which is written by node-js and depended on ffmpeg-recorder.
 </p>
 
 <br>
@@ -24,6 +24,7 @@
 - Mux h264 and aac to a single mp4 file
 - Only support in windows for now(at least win7)
 - Image preview(yuv420)
+- Record only mic or speaker,or only video without any audio
 
 <br>
 

@@ -10,6 +10,8 @@ const STORAGE_KEY_OUTPUT_DIR = 'STORAGE_KEY_OUTPUT_DIR';
 const STORAGE_KEY_ENABLE_MIC = 'STORAGE_KEY_ENABLE_MIC';
 const STORAGE_KEY_ENABLE_SPEAKER = 'STORAGE_KEY_ENABLE_SPEAKER';
 
+const STORAGE_KEY_ENCODER_VIDEO = 'STORAGE_KEY_ENCODER_VIDEO';
+
 const store = new ElectronStore();
 
 const read = (key, defaultValue) => store.get(key, defaultValue);
@@ -35,7 +37,10 @@ const storage = {
   enableMic: (value: boolean) => write(STORAGE_KEY_ENABLE_MIC, value),
 
   isSpeakerEnabled: () => read(STORAGE_KEY_ENABLE_SPEAKER, true),
-  enableSpeaker: (value: boolean) => write(STORAGE_KEY_ENABLE_SPEAKER, value)
+  enableSpeaker: (value: boolean) => write(STORAGE_KEY_ENABLE_SPEAKER, value),
+
+  getVideoEncoder: () => read(STORAGE_KEY_ENCODER_VIDEO, 0),
+  setVideoEncoder: (value: number) => write(STORAGE_KEY_ENCODER_VIDEO, value)
 };
 
 // store.openInEditor();

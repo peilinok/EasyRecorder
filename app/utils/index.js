@@ -33,6 +33,9 @@ const initLog = () => {
 
 const initSettings = () => {
   const { mics, speakers } = recorder.getDevices();
+  const vEncoders = recorder.getVideoEncoders();
+
+  const vEncoderId = storage.getVideoEncoder();
   const mic = storage.getMic();
   const speaker = storage.getSpeaker();
   const fps = storage.getFps();
@@ -41,6 +44,10 @@ const initSettings = () => {
 
   const selectedMic = helper.getDefaultSelectedDevice(mics, mic);
   const selectedSpeaker = helper.getDefaultSelectedDevice(speakers, speaker);
+  const selectedVEncoder = helper.getDefaultSelectedEncoder(
+    vEncoders,
+    vEncoderId
+  );
 
   // no mic or speaker stored,store default one
   if (mic === undefined || mic === '') {
@@ -51,6 +58,7 @@ const initSettings = () => {
     storage.setSpeaker(selectedSpeaker.id);
   }
 
+  storage.setVideoEncoder(selectedVEncoder.id);
   storage.setFps(fps);
   storage.setQuality(quality);
   storage.setOutputDir(output === '' ? getDesktopFolder() : output);

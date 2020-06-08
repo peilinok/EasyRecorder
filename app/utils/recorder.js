@@ -25,6 +25,9 @@ const Recorder = {
       speakers: ffRecorder.GetSpeakers()
     };
   },
+  getVideoEncoders() {
+    return ffRecorder.GetVideoEncoders();
+  },
   start() {
     const { isRecording } = store.getState().recorder;
     if (isRecording === true) {
@@ -34,13 +37,14 @@ const Recorder = {
 
     const outputFileName = helper.generateVideoFileName(
       storage.getOutputDir(),
-      'mp4'
+      'mkv'
     );
 
     log.info('start to record to file : ', outputFileName);
 
     const mic = storage.isMicEnabled() ? storage.getMic() : '';
     const speaker = storage.isSpeakerEnabled() ? storage.getSpeaker() : '';
+    const vencoderId = storage.getVideoEncoder();
 
     const ret = ffRecorder.Init(
       storage.getQuality(),
@@ -49,10 +53,12 @@ const Recorder = {
       speaker,
       speaker,
       mic,
-      mic
+      mic,
+      vencoderId
     );
 
     if (ret === 0) {
+      ffRecorder.EnablePreview(true);
       ffRecorder.Start();
       store.dispatch(recorderStart(outputFileName));
       log.info('start to record succed');
@@ -82,9 +88,11 @@ const Recorder = {
   },
   pause() {
     store.dispatch(recorderPause());
+    ffRecorder.Pause();
   },
   resume() {
     store.dispatch(recorderResume());
+    ffRecorder.Resume();
   },
 
   /**

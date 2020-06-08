@@ -13,3 +13,8 @@ export type DeviceItem = {
   name: string,
   isDefault: number
 };
+
+export type EncoderItem = {
+  id: number,
+  name: string
+};

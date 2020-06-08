@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
 import { Form, Button, Input, Icon, Slider, Checkbox } from 'antd';
 
-import { DeviceItem } from '../../../utils/types';
+import { DeviceItem, EncoderItem } from '../../../utils/types';
 
 import DeviceSelect from '../../../components/DeviceSelect';
 
@@ -15,6 +15,7 @@ type State = {
 type SettingFormData = {
   mic: DeviceItem,
   speaker: DeviceItem,
+  vencoder: EncoderItem,
   fps: number,
   quality: number,
   isMicEnabled: boolean,
@@ -26,8 +27,10 @@ type Props = {
   disabled: boolean,
   mics: Array<DeviceItem>,
   speakers: Array<DeviceItem>,
+  vEncoders: Array<EncoderItem>,
   currentMic: DeviceItem,
   currentSpeaker: DeviceItem,
+  currentVEncoder: EncoderItem,
   fps: number,
   quality: number,
   output: string,
@@ -83,6 +86,7 @@ class SettingForm extends Component<Props, State> {
       disabled,
       mics,
       speakers,
+      vEncoders,
       // eslint-disable-next-line react/prop-types
       form
     } = this.props;
@@ -150,6 +154,24 @@ class SettingForm extends Component<Props, State> {
               selected={getFieldValue('speaker')}
               disabled={disabled || !isSpeakerEnabled}
               onSelect={speaker => setFieldsValue({ speaker })}
+            />
+          )}
+        </Form.Item>
+
+        <Form.Item label="Video Encoders">
+          {getFieldDecorator('vencoder', {
+            rules: [
+              {
+                required: true && isSpeakerEnabled,
+                message: 'Must select a vencoder'
+              }
+            ]
+          })(
+            <DeviceSelect
+              options={vEncoders}
+              disabled={disabled}
+              selected={getFieldValue('vencoder')}
+              onSelect={vencoder => setFieldsValue({ vencoder })}
             />
           )}
         </Form.Item>
@@ -244,6 +266,10 @@ export default Form.create({
       speaker: Form.createFormField({
         ...props.currentSpeaker,
         value: props.currentSpeaker ? props.currentSpeaker : null
+      }),
+      vencoder: Form.createFormField({
+        ...props.currentVEncoder,
+        value: props.currentVEncoder ? props.currentVEncoder : null
       }),
       fps: Form.createFormField({
         ...props.fps,

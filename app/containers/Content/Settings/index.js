@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import log from 'electron-log';
 import { connect } from 'react-redux';
 
-import { DeviceItem } from '../../../utils/types';
+import { DeviceItem, EncoderItem } from '../../../utils/types';
 import recorder from '../../../utils/recorder';
 import helper from '../../../utils/helper';
 import storage from '../../../utils/storage';
@@ -18,8 +18,10 @@ type Props = {
 type State = {
   mics: Array<DeviceItem>,
   speakers: Array<DeviceItem>,
+  vEncoders: Array<EncoderItem>,
   currentMic: DeviceItem,
   currentSpeaker: DeviceItem,
+  currentVEncoder: EncoderItem,
   fps: number,
   quality: number,
   output: string,
@@ -33,15 +35,13 @@ class SettingLayout extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { mics, speakers } = recorder.getDevices();
-    const mic = storage.getMic();
-    const speaker = storage.getSpeaker();
-
     this.state = {
-      mics: recorder.getDevices().mics,
-      speakers: recorder.getDevices().speakers,
-      currentMic: helper.getDefaultSelectedDevice(mics, mic),
-      currentSpeaker: helper.getDefaultSelectedDevice(speakers, speaker),
+      mics: [],
+      speakers: [],
+      vEncoders: [],
+      currentMic: undefined,
+      currentSpeaker: undefined,
+      currentVEncoder: undefined,
       fps: storage.getFps(),
       quality: storage.getQuality(),
       output: storage.getOutputDir(),
@@ -49,7 +49,38 @@ class SettingLayout extends Component<Props, State> {
       isSpeakerEnabled: storage.isSpeakerEnabled()
     };
 
+    this.refreshSetting = this.refreshSetting.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { isRecording } = this.props;
+    if (isRecording === true) return;
+
+    this.refreshSetting();
+  }
+
+  refreshSetting() {
+    const { mics, speakers } = recorder.getDevices();
+    // will crashed when recording with hardware encoder
+    const vEncoders = recorder.getVideoEncoders();
+    const mic = storage.getMic();
+    const speaker = storage.getSpeaker();
+    const vencoderId = storage.getVideoEncoder();
+
+    this.setState({
+      mics,
+      speakers,
+      vEncoders,
+      currentMic: helper.getDefaultSelectedDevice(mics, mic),
+      currentSpeaker: helper.getDefaultSelectedDevice(speakers, speaker),
+      currentVEncoder: helper.getDefaultSelectedEncoder(vEncoders, vencoderId),
+      fps: storage.getFps(),
+      quality: storage.getQuality(),
+      output: storage.getOutputDir(),
+      isMicEnabled: storage.isMicEnabled(),
+      isSpeakerEnabled: storage.isSpeakerEnabled()
+    });
   }
 
   onSubmit(values) {
@@ -58,6 +89,7 @@ class SettingLayout extends Component<Props, State> {
     const {
       mic,
       speaker,
+      vencoder,
       fps,
       quality,
       output,
@@ -68,6 +100,7 @@ class SettingLayout extends Component<Props, State> {
       {
         currentMic: mic,
         currentSpeaker: speaker,
+        currentVEncoder: vencoder,
         fps,
         quality,
         isMicEnabled,
@@ -82,6 +115,7 @@ class SettingLayout extends Component<Props, State> {
         storage.setOutputDir(output);
         storage.enableMic(isMicEnabled);
         storage.enableSpeaker(isSpeakerEnabled);
+        storage.setVideoEncoder(vencoder.id);
       }
     );
   }
@@ -90,8 +124,10 @@ class SettingLayout extends Component<Props, State> {
     const {
       mics,
       speakers,
+      vEncoders,
       currentMic,
       currentSpeaker,
+      currentVEncoder,
       fps,
       quality,
       output,
@@ -107,8 +143,10 @@ class SettingLayout extends Component<Props, State> {
           disabled={isRecording}
           mics={mics}
           speakers={speakers}
+          vEncoders={vEncoders}
           currentMic={currentMic}
           currentSpeaker={currentSpeaker}
+          currentVEncoder={currentVEncoder}
           fps={fps}
           quality={quality}
           output={output}

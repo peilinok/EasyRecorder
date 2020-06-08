@@ -2,7 +2,7 @@
 import moment from 'moment';
 import path from 'path';
 
-import { DeviceItem } from './types';
+import { DeviceItem, EncoderItem } from './types';
 
 moment.locale('zh-cn');
 
@@ -27,6 +27,17 @@ const helper = {
 
     // return found device or undefined
     return device;
+  },
+  getDefaultSelectedEncoder: (encoders: Array<EncoderItem>, id: number) => {
+    if (encoders === undefined || encoders.length === 0) return undefined;
+
+    for (let index = 0; index < encoders.length; index += 1) {
+      if (encoders[index].id === id) return encoders[index];
+    }
+
+    if (encoders && encoders.length > 0) return encoders[0];
+
+    return undefined;
   },
   generateVideoFileName(folder: string, ext: string) {
     return path.join(

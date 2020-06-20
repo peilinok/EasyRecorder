@@ -32,6 +32,7 @@ class RecordingLayout extends Component<Props> {
             switch (action) {
               case 'start':
                 recorder.start();
+                recorder.enablePreview(true);
                 break;
               case 'stop':
                 recorder.stop();

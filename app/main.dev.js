@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, globalShortcut } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
@@ -104,6 +104,10 @@ const createWindow = async () => {
       .catch(err => {
         log.debug('custom open folder req failed,', err);
       });
+  });
+
+  globalShortcut.register('Ctrl+Alt+Shift+I', () => {
+    if (mainWindow) mainWindow.openDevTools();
   });
 
   /*
